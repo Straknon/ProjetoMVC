@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -30,11 +32,16 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter implements 
 		source.registerCorsConfiguration("/**", getCorsConfiguration());
 		return source;
 	}
+	
+	@Bean
+	public HttpFirewall defaultHttpFirewall() {
+	    return new DefaultHttpFirewall();
+	}
 
 	private CorsConfiguration getCorsConfiguration() {
 
 		CorsConfiguration cors = new CorsConfiguration();
-		cors.setAllowedOrigins(Arrays.asList("*"));
+		cors.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
 		cors.setAllowedMethods(Arrays.asList("OPTIONS", "GET", "POST", "PUT","DELETE"));
 		cors.setAllowedHeaders(Arrays.asList("*"));
 		
